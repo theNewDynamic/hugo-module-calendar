@@ -1,0 +1,37 @@
+{{/*
+  Description
+
+  @author mountainbug95
+
+  @context Page (.)
+
+  @access public
+
+  @return String
+
+  @example - Go Template
+    {{ with partial "calendar-btn/GetURLYahoo" . }}
+      <li class="ateyahoo" id="addeventatc1-yahoo" role="menuitem"><a href="{{ htmlUnescape . }}"><strong>Yahoo</strong><em>(online)</em></a></li>
+    {{ end }}
+*/}}
+{{ $fullLink := false }}
+{{ with .Date }}
+  {{ $date := dateFormat "20060102T150405" . }}
+  
+  {{ $eventTitle := $.Params.title }}
+
+  {{ $eventContent := "" }}
+
+  {{ $variant := printf "%x" (dict "variant" $.Params "showContent" true) }}
+  {{ with partialCached "calendar-btn/GetCalendarContent" (dict "context" $ "displayContent" true) $variant }}
+    {{ $eventContent = . }}
+  {{ end }}
+
+  {{ $link := querify "v" "60" "TITLE" $eventTitle "DESC" $eventContent "ST" $date "DUR" "0100" "in_loc" "279 Harvard St, Brookline, Massachusetts 02446-2908" }}
+
+  {{ $linkStart := "http://calendar.yahoo.com/?" }}
+
+  {{ $fullLink =  print $linkStart $link }}
+{{ end }}
+
+{{ return $fullLink }}

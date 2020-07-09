@@ -1,0 +1,59 @@
+{{/*
+  add-to-calendar
+
+  @author mountainbug95
+
+  @context Page (.)
+
+  @access public
+
+  @example - Go Template
+    {{ partial "path" context }}
+    {{ partialCached "path" context "variant" }}
+*/}}
+
+<!-- ADD TO CALENDAR -->
+
+<span class="calendar-container flex p-2 content-center cursor-pointer rounded-md relative">
+
+    <img src="/images/calendar.svg" alt="" class="text-grey mr-3 align-top ml-auto">
+  
+    <span>Add to Calendar</span>
+  
+    <div title="" class="" id="1" aria-haspopup="true" aria-expanded="false" tabindex="0" style="visibility: visible; z-index: 99999;">
+  
+  
+  
+      <span class="location atc_node hidden">279 Harvard St, Brookline, Massachusetts 02446-2908</span>
+      
+      
+      <span class="organizer atc_node hidden">brookline booksmith</span>
+      <span class="organizer_email atc_node hidden">thestore@brooklinebooksmith.com</span>
+      <span class="all_day_event atc_node hidden">{{ if .Params.all_day }}{{ .Params.all_day }}{{ else }}false{{ end }}</span>
+      <span class="date_format atc_node hidden">{{ dateFormat "1/02/2006" .Params.date }}</span>
+      
+      <ul id="addeventatc1-drop" class="addeventatc_dropdown rounded absolute" aria-hidden="true" aria-labelledby="addeventatc1">
+  
+        {{ $pageData := . }}
+        {{/* We used to add "Outlook" but removed temporarily (see https://github.com/theNewDynamic/brooklinebooksmith.com/issues/319) */}}
+        {{ range $service := slice "Google" "Yahoo" }}
+          {{ with partial (printf "calendar-btn/GetURL%s" .) $pageData }}
+              <li class="ate{{ $service }} id" id="addeventatc1{{ $service }}" role="menuitem"><a href="{{ htmlUnescape . }}"><strong>{{ $service }}</strong><em>(online)</em></a></li>
+          {{ end }}
+        {{ end }}
+  
+        {{ with .OutputFormats.Get "calendar" }}
+          <li class="ateappleical" id="addeventatc1-appleical" role="menuitem">
+            <a href="{{ .RelPermalink }}"><strong>Apple</strong></a>
+          </li>
+          <li class="ateoutlook" id="addeventatc1-outlook" role="menuitem">
+            <a href="{{ .RelPermalink }}"><strong>Outlook</strong></a>
+          </li>
+        {{ end }}
+      
+      </ul>
+      
+    </div>
+  
+  
+  </span>

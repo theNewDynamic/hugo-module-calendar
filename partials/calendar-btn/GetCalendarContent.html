@@ -1,0 +1,83 @@
+{{/*
+  Description
+
+  @author mountainbug95
+
+  @context (dict "context" . "displayContent" true)
+           context: page context (.)
+           displayContent: boolean
+
+  @access public
+
+  @return String
+
+  @example - Go Template
+    {{ $variant := printf "%x" (dict "variant" $.Params "showContent" true) }}
+    {{ with partialCached "calendar-btn/GetCalendarContent" (dict "context" . "displayContent" true) $variant }}
+      {{ $eventContent = . }}
+    {{ end }}
+*/}}
+
+{{ $venuString := "" }}
+
+{{ $eventContent := "" }}
+
+{{ with $.context.Params.venue }}
+    {{ $venuString = "" }}
+
+    {{ $venue := $.context.Site.GetPage . }}
+
+    {{ with $venue.Title }}
+      {{ $venuString = print $venuString "Venue Name: " . "\n" }}
+    {{ end }}
+
+    {{ with $venue.Params.venue }}
+      {{ if .address }}
+        {{ $venuString = print $venuString "Venue Location: " .address }}
+
+        {{ with .city }}
+          {{ $venuString = print $venuString " " . }}
+        {{ end }}
+
+        {{ with .state }}
+          {{ $venuString = print $venuString " " . }}
+        {{ end }}
+
+        {{ with .zip }}
+          {{ $venuString = print $venuString " " . }}
+        {{ end }}
+
+        {{ $venuString = print $venuString "\n" }}
+      {{ end }}
+
+      {{ with .link }}
+        {{ $venuString = print $venuString "Venue Web Page: " . "\n" }}
+      {{ end }}
+
+      {{ with .phone }}
+        {{ $venuString = print $venuString "Venue Phone Number: " . "\n" }}
+      {{ end }}
+
+    {{ end }}
+
+{{ end }}
+
+{{ $eventContent = print "Event Link: " $.context.Permalink }}
+
+{{ with $venuString }}
+  {{ $eventContent = print . "\n" $eventContent }}
+{{ end }}
+
+{{ if eq .displayContent true }}
+  {{ with $.context.Content }}
+    {{ $eventContent = print . $eventContent }}
+  {{ end }}
+{{ else }}
+  {{ $eventContent = print $eventContent }}
+{{ end }}
+
+{{ with $.context.Params.tickets_link }}
+  {{ $eventContent = print "Ticket Link: " . "\n" $eventContent }}
+{{ end }}
+
+{{ return $eventContent }}
