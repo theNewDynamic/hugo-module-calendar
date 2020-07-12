@@ -27,7 +27,7 @@ Configure your project's module to import this module:
 # config.yaml
 module:
   imports:
-  - path: github.com/theNewDynamic/hugo-module-calendar
+  - path: github.com/theNewDynamic/hugo-module-tnd-addtocal
 ```
 
 ## Usage
@@ -38,7 +38,7 @@ module:
 
 ### Settings
 
-Settings are added to the project's parameter under the `tnd_calendar` map as shown below.
+Settings are added to the project's parameter under the `tnd_addtocal` map as shown below.
 
 ```yaml
 # config.yaml
@@ -51,7 +51,7 @@ params:
 
 #### Configure Key 2
 
-Given the example above, passing the following arguments to `tnd-imgix/GetSRC`
+Given the example above, passing the following arguments to `tnd-addtocal/GetSRC`
 ```
 {{ $src := "/uploads/an-image.jpg" }}
 {{ $args := dict "src" $src "width" 1024 "pixel" 2 "ch" "Width,DPR" }}
