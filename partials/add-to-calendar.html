@@ -22,9 +22,17 @@
   
     <div title="" class="" id="1" aria-haspopup="true" aria-expanded="false" tabindex="0" style="visibility: visible; z-index: 99999;">
   
-  
-  
-      <span class="location atc_node hidden">279 Harvard St, Brookline, Massachusetts 02446-2908</span>
+      {{ $location := "" }}
+      {{with site.Params.location }}
+        {{ $location = . }}
+      {{ end }}
+      {{with .Params.location }}
+        {{ $location = . }}
+      {{ end }}
+
+      {{ with $location }}
+        <span class="location atc_node hidden">{{ . }}</span>
+      {{ end }}
       
       
       <span class="organizer atc_node hidden">brookline booksmith</span>
