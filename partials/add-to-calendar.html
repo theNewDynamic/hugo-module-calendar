@@ -14,9 +14,9 @@
 
 <!-- ADD TO CALENDAR -->
 
-<span class="calendar-container flex p-2 content-center cursor-pointer rounded-md relative">
+<span class="calendar-container">
 
-    <img src="/images/calendar.svg" alt="" class="text-grey mr-3 align-top ml-auto">
+    <img src="/images/calendar.svg" alt="" class="icon">
   
     <span>Add to Calendar</span>
   
@@ -32,7 +32,7 @@
       <span class="all_day_event atc_node hidden">{{ if .Params.all_day }}{{ .Params.all_day }}{{ else }}false{{ end }}</span>
       <span class="date_format atc_node hidden">{{ dateFormat "1/02/2006" .Params.date }}</span>
       
-      <ul id="addeventatc1-drop" class="addeventatc_dropdown rounded absolute" aria-hidden="true" aria-labelledby="addeventatc1">
+      <ul id="addeventatc1-drop" class="addeventatc_dropdown" aria-hidden="true" aria-labelledby="addeventatc1">
   
         {{ $pageData := . }}
         {{/* We used to add "Outlook" but removed temporarily (see https://github.com/theNewDynamic/brooklinebooksmith.com/issues/319) */}}
