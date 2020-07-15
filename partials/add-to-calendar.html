@@ -45,7 +45,7 @@
         {{ $pageData := . }}
         {{/* We used to add "Outlook" but removed temporarily (see https://github.com/theNewDynamic/brooklinebooksmith.com/issues/319) */}}
         {{ range $service := slice "Google" "Yahoo" }}
-          {{ with partial (printf "calendar-btn/GetURL%s" .) $pageData }}
+          {{ with partial (printf "tnd-addtocal/private/calendar-btn/GetURL%s" .) $pageData }}
               <li class="ate{{ $service }} id" id="addeventatc1{{ $service }}" role="menuitem"><a href="{{ htmlUnescape . }}"><strong>{{ $service }}</strong><em>(online)</em></a></li>
           {{ end }}
         {{ end }}
