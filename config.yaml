@@ -4,3 +4,11 @@ module:
   mounts:
   - source: partials
     target: layouts/partials/tnd-addtocal
+params:
+  tnd_addtocal:
+    default_location: '123 somewhere Rd., elsewhere TN 00000'
+    calendar_entries:
+      google: true
+      yahoo: true
+      ical: true
+      outlook_desktop: true

@@ -15,23 +15,25 @@
     {{ end }}
 */}}
 {{ $fullLink := false }}
-{{ with .Date }}
-  {{ $date := dateFormat "20060102T150405" . }}
+{{ if site.Params.tnd_addtocal.calendar_entries.yahoo }}
+  {{ with .Date }}
+    {{ $date := dateFormat "20060102T150405" . }}
+    
+    {{ $eventTitle := $.Params.title }}
   
-  {{ $eventTitle := $.Params.title }}
-
-  {{ $eventContent := "" }}
-
-  {{ $variant := printf "%x" (dict "variant" $.Params "showContent" true) }}
-  {{ with partialCached "tnd-addtocal/private/calendar-btn/GetCalendarContent" (dict "context" $ "displayContent" true) $variant }}
-    {{ $eventContent = . }}
+    {{ $eventContent := "" }}
+  
+    {{ $variant := printf "%x" (dict "variant" $.Params "showContent" true) }}
+    {{ with partialCached "tnd-addtocal/private/calendar-btn/GetCalendarContent" (dict "context" $ "displayContent" true) $variant }}
+      {{ $eventContent = . }}
+    {{ end }}
+  
+    {{ $link := querify "v" "60" "TITLE" $eventTitle "DESC" $eventContent "ST" $date "DUR" "0100" "in_loc" "279 Harvard St, Brookline, Massachusetts 02446-2908" }}
+  
+    {{ $linkStart := "http://calendar.yahoo.com/?" }}
+  
+    {{ $fullLink =  print $linkStart $link }}
   {{ end }}
-
-  {{ $link := querify "v" "60" "TITLE" $eventTitle "DESC" $eventContent "ST" $date "DUR" "0100" "in_loc" "279 Harvard St, Brookline, Massachusetts 02446-2908" }}
-
-  {{ $linkStart := "http://calendar.yahoo.com/?" }}
-
-  {{ $fullLink =  print $linkStart $link }}
 {{ end }}
 
 {{ return $fullLink }}

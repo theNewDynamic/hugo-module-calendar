@@ -15,49 +15,51 @@
       {{ end }}
 */}}
 {{ $fullLink := false }}
-{{ with .Date }}
-  {{ $date := dateFormat "20060102T150405" . }}
-
-  {{ $hour := add (div (int (print ((dateFormat "15" .) | strings.TrimLeft "0") "0")) 10) 1 }}
-  {{ $minute := div (int (print ((dateFormat "04" .) | strings.TrimLeft "0") "0")) 10 }}
-  {{ $second := div (int (print ((dateFormat "05" .) | strings.TrimLeft "0") "0")) 10 }}
-
-  {{ if lt $hour 10 }}
-    {{ $hour = print "0" (string $hour) }}
-  {{ else }}
-    {{ $hour = string $hour }}
+{{ if site.Params.tnd_addtocal.calendar_entries.google }}
+  {{ with and .Date }}
+    {{ $date := dateFormat "20060102T150405" . }}
+  
+    {{ $hour := add (div (int (print ((dateFormat "15" .) | strings.TrimLeft "0") "0")) 10) 1 }}
+    {{ $minute := div (int (print ((dateFormat "04" .) | strings.TrimLeft "0") "0")) 10 }}
+    {{ $second := div (int (print ((dateFormat "05" .) | strings.TrimLeft "0") "0")) 10 }}
+  
+    {{ if lt $hour 10 }}
+      {{ $hour = print "0" (string $hour) }}
+    {{ else }}
+      {{ $hour = string $hour }}
+    {{ end }}
+  
+    {{ if lt $minute 10 }}
+      {{ $minute = print "0" (string $minute) }}
+    {{ else }}
+      {{ $minute = string $minute }}
+    {{ end }}
+  
+    {{ if lt $second 10 }}
+      {{ $second = print "0" (string $second) }}
+    {{ else }}
+      {{ $second = string $second }}
+    {{ end }}
+  
+    {{ $endDate := print "/" (dateFormat "20060102" .) "T" $hour $minute $second }}
+  
+    {{ $dateFull := print $date $endDate }}
+  
+    {{ $eventTitle := $.Params.title }}
+  
+    {{ $eventContent := "" }}
+  
+    {{ $variant := printf "%x" (dict "variant" $.Params "showContent" true) }}
+    {{ with partialCached "tnd-addtocal/private/calendar-btn/GetCalendarContent" (dict "context" $ "displayContent" true) $variant }}
+      {{ $eventContent = . }}
+    {{ end }}
+  
+    {{ $link := querify "text" $eventTitle "details" $eventContent "location" "279 Harvard St, Brookline, Massachusetts 02446-2908" "dates" $dateFull "ctz" "America/New_York" }}
+  
+    {{ $linkStart := "https://www.google.com/calendar/render?action=TEMPLATE&" }}
+  
+    {{ $fullLink =  print $linkStart $link }}
   {{ end }}
-
-  {{ if lt $minute 10 }}
-    {{ $minute = print "0" (string $minute) }}
-  {{ else }}
-    {{ $minute = string $minute }}
-  {{ end }}
-
-  {{ if lt $second 10 }}
-    {{ $second = print "0" (string $second) }}
-  {{ else }}
-    {{ $second = string $second }}
-  {{ end }}
-
-  {{ $endDate := print "/" (dateFormat "20060102" .) "T" $hour $minute $second }}
-
-  {{ $dateFull := print $date $endDate }}
-
-  {{ $eventTitle := $.Params.title }}
-
-  {{ $eventContent := "" }}
-
-  {{ $variant := printf "%x" (dict "variant" $.Params "showContent" true) }}
-  {{ with partialCached "tnd-addtocal/private/calendar-btn/GetCalendarContent" (dict "context" $ "displayContent" true) $variant }}
-    {{ $eventContent = . }}
-  {{ end }}
-
-  {{ $link := querify "text" $eventTitle "details" $eventContent "location" "279 Harvard St, Brookline, Massachusetts 02446-2908" "dates" $dateFull "ctz" "America/New_York" }}
-
-  {{ $linkStart := "https://www.google.com/calendar/render?action=TEMPLATE&" }}
-
-  {{ $fullLink =  print $linkStart $link }}
 {{ end }}
 
 {{ return $fullLink }}
