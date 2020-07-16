@@ -15,7 +15,8 @@
       {{ end }}
 */}}
 {{ $fullLink := false }}
-{{ if site.Params.tnd_addtocal.calendar_entries.google }}
+{{ $config := partialCached "tnd-addtocal/private/GetConfig" . }}
+{{ if $config.calendar_entries.google }}
   {{ with and .Date }}
     {{ $date := dateFormat "20060102T150405" . }}
   

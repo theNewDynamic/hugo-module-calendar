@@ -22,8 +22,9 @@
   
     <div title="" class="" id="1" aria-haspopup="true" aria-expanded="false" tabindex="0" style="visibility: visible; z-index: 99999;">
   
+      {{ $config := partialCached "tnd-addtocal/private/GetConfig" . }}
       {{ $location := "" }}
-      {{with site.Params.tnd_addtocal.default_location }}
+      {{with $config.default_location }}
         {{ $location = . }}
       {{ end }}
       {{with .Params.location }}
@@ -51,12 +52,12 @@
         {{ end }}
   
         {{ with .OutputFormats.Get "calendar" }}
-          {{ if site.Params.tnd_addtocal.calendar_entries.ical }}
+          {{ if $config.calendar_entries.ical }}
             <li class="ateappleical" id="addeventatc1-appleical" role="menuitem">
               <a href="{{ .RelPermalink }}"><strong>Apple</strong></a>
             </li>
           {{ end }}
-          {{ if site.Params.tnd_addtocal.calendar_entries.outlook_desktop }}
+          {{ if $config.calendar_entries.outlook_desktop }}
             <li class="ateoutlook" id="addeventatc1-outlook" role="menuitem">
               <a href="{{ .RelPermalink }}"><strong>Outlook</strong></a>
             </li>
