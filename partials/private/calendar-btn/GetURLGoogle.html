@@ -60,6 +60,8 @@
     {{ $linkStart := "https://www.google.com/calendar/render?action=TEMPLATE&" }}
   
     {{ $fullLink =  print $linkStart $link }}
+  {{ else }}
+    {{ warnf "There is no 'date' parameter present in this event file." "\nHugo Module TND addtocal:\n" }}
   {{ end }}
 {{ end }}
 

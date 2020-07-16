@@ -64,6 +64,8 @@
   {{ $linkStart := "https://outlook.live.com/owa/?path=/calendar/view/Month&" }}
 
   {{ $fullLink =  print $linkStart $link }}
+{{ else }}
+  {{ warnf "There is no 'date' parameter present in this event file." "\nHugo Module TND addtocal:\n" }}
 {{ end }}
 
 {{ return $fullLink }}
