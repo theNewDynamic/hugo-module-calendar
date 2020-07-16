@@ -29,7 +29,7 @@
       {{ $eventContent = . }}
     {{ end }}
   
-    {{ $link := querify "v" "60" "TITLE" $eventTitle "DESC" $eventContent "ST" $date "DUR" "0100" "in_loc" "279 Harvard St, Brookline, Massachusetts 02446-2908" }}
+    {{ $link := querify "v" "60" "TITLE" $eventTitle "DESC" $eventContent "ST" $date "DUR" "0100" "in_loc" $config.default_location }}
   
     {{ $linkStart := "http://calendar.yahoo.com/?" }}
   

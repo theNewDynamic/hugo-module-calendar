@@ -55,7 +55,7 @@
       {{ $eventContent = . }}
     {{ end }}
   
-    {{ $link := querify "text" $eventTitle "details" $eventContent "location" "279 Harvard St, Brookline, Massachusetts 02446-2908" "dates" $dateFull "ctz" "America/New_York" }}
+    {{ $link := querify "text" $eventTitle "details" $eventContent "location" $config.default_location "dates" $dateFull "ctz" "America/New_York" }}
   
     {{ $linkStart := "https://www.google.com/calendar/render?action=TEMPLATE&" }}
   

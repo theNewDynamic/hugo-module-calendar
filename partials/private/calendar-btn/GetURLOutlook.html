@@ -15,6 +15,7 @@
     {{ end }}
 */}}
 {{ $fullLink := false }}
+{{ $config := partialCached "tnd-addtocal/private/GetConfig" . }}
 {{ with .Date }}
 
 
@@ -59,7 +60,7 @@
     {{ $eventContent = . }}
   {{ end }}
 
-  {{ $link := querify "rru" "addevent" "startdt" $date "enddt" $endDate "subject" $eventTitle "body" $eventContent "location" "279 Harvard St, Brookline, Massachusetts 02446-2908" }}
+  {{ $link := querify "rru" "addevent" "startdt" $date "enddt" $endDate "subject" $eventTitle "body" $eventContent "location" $config.default_location }}
 
   {{ $linkStart := "https://outlook.live.com/owa/?path=/calendar/view/Month&" }}
 

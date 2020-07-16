@@ -14,6 +14,7 @@
 
 <!-- ADD TO CALENDAR -->
 <span class="calendar-container">
+    {{ $config := partialCached "tnd-addtocal/private/GetConfig" . }}
 
     <img src="/images/calendar.svg" alt="" class="icon">
   
@@ -21,7 +22,6 @@
   
     <div title="" class="" id="1" aria-haspopup="true" aria-expanded="false" tabindex="0" style="visibility: visible; z-index: 99999;">
   
-      {{ $config := partialCached "tnd-addtocal/private/GetConfig" . }}
       {{ $location := "" }}
       {{with $config.default_location }}
         {{ $location = . }}
@@ -35,8 +35,8 @@
       {{ end }}
       
       
-      <span class="organizer atc_node hidden">brookline booksmith</span>
-      <span class="organizer_email atc_node hidden">thestore@brooklinebooksmith.com</span>
+      <span class="organizer atc_node hidden">{{ $config.org_title }}</span>
+      <span class="organizer_email atc_node hidden">{{ $config.org_email }}</span>
       <span class="all_day_event atc_node hidden">{{ if .Params.all_day }}{{ .Params.all_day }}{{ else }}false{{ end }}</span>
       {{ with .Params.date }}
         <span class="date_format atc_node hidden">{{ dateFormat "1/02/2006" . }}</span>
@@ -47,7 +47,7 @@
       <ul id="addeventatc1-drop" class="addeventatc_dropdown" aria-hidden="true" aria-labelledby="addeventatc1">
   
         {{ $pageData := . }}
-        {{/* We used to add "Outlook" but removed temporarily (see https://github.com/theNewDynamic/brooklinebooksmith.com/issues/319) */}}
+        {{/* We used to add "Outlook" but removed temporarily */}}
         {{ range $service := slice "Google" "Yahoo" }}
           {{ with partial (printf "tnd-addtocal/private/calendar-btn/GetURL%s" .) $pageData }}
               <li class="ate{{ $service }} id" id="addeventatc1{{ $service }}" role="menuitem"><a href="{{ htmlUnescape . }}"><strong>{{ $service }}</strong><em>(online)</em></a></li>
