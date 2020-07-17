@@ -4,7 +4,8 @@ module:
   mounts:
   - source: partials
     target: layouts/partials/tnd-addtocal
-    target: layouts/partials/tnd-addtocal
+  - source: templates
+    target: layouts/_default
 params:
   tnd_addtocal:
     default_location: '123 somewhere Rd., elsewhere TN 00000'

@@ -1,0 +1,86 @@
+BEGIN:VCALENDAR
+PRODID:-//Microsoft Corporation//Outlook 12.0 MIMEDIR//EN
+VERSION:2.0
+METHOD:PUBLISH
+X-MS-OLK-FORCEINSPECTOROPEN:TRUE
+BEGIN:VTIMEZONE
+TZID:America/New_York
+X-LIC-LOCATION:America/New_York
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+TZNAME:EDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+TZNAME:EST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+CLASS:PUBLIC
+{{ $eventContent := "" -}}
+{{ $variant := printf "%x" (dict "variant" $.Params "showContent" false) }}
+{{- with partialCached "calendar-btn/GetCalendarContent" (dict "context" $ "displayContent" false) $variant -}}
+  {{- $eventContent = print (replace (replace . "\n" ", ") ", , " ", ") -}}
+{{- end -}}
+DESCRIPTION:{{- $eventContent -}}
+  {{/* Pull the date hours minutes and seconds into variables and convert them to integers / also, safe guards against zero values getting trimmed  */}}
+  {{- $eventTime := time .Date -}}
+  {{- $timeZone := index (split $eventTime " ") 3 -}}
+  {{- $hour := add $eventTime.Hour 1 -}}
+  {{- $startHour := $eventTime.Hour -}}
+  {{- $minute := $eventTime.Minute -}}
+  {{- $second := $eventTime.Second -}}
+  {{/* if the hour is less than 10, add a zero to the front of the string so it will work with the date format */}}
+  {{- if lt $hour 10 -}}
+    {{- $hour = print "0" (string $hour) -}}
+  {{- else -}}
+    {{- $hour = string $hour -}}
+  {{- end -}}
+  {{- if lt $startHour 10 -}}
+    {{- $startHour = print "0" (string $startHour) -}}
+  {{- else -}}
+    {{- $startHour = string $startHour -}}
+  {{- end -}}
+  {{- if lt $minute 10 -}}
+    {{- $minute = print "0" (string $minute) -}}
+  {{- else -}}
+    {{- $minute = string $minute -}}
+  {{- end -}}
+  {{- if lt $second 10 -}}
+    {{- $second = print "0" (string $second) -}}
+  {{- else -}}
+    {{- $second = string $second -}}
+  {{- end -}}
+  {{/* determine the region corresponding to the time zone */}}
+  {{- $region := ";TZID=America/New_York" -}}
+  {{/* Construct the end date from the modified values */}}
+  {{- $endDate := print (dateFormat "20060102" .Date) "T" $hour $minute $second }}
+DTEND{{ $region }}:{{- $endDate }}
+{{/* The start date hours, minutes, and seconds must also be formatted as UTC */}}
+{{- $dateStart := print (dateFormat "20060102" .Date) "T" $startHour $minute $second -}}
+DTSTART{{ $region }}:{{- $dateStart }}
+LOCATION:279 Harvard St Brookline Massachusetts 02446-2908
+PRIORITY:5
+SEQUENCE:0
+SUMMARY;LANGUAGE=en-us:{{- .Params.title }}
+TRANSP:OPAQUE
+UID:040000008200E00074C5B7101A82E008000000008062306C6261CA01000000000000000
+X-MICROSOFT-CDO-BUSYSTATUS:BUSY
+X-MICROSOFT-CDO-IMPORTANCE:1
+X-MICROSOFT-DISALLOW-COUNTER:FALSE
+X-MS-OLK-ALLOWEXTERNCHECK:TRUE
+X-MS-OLK-AUTOFILLLOCATION:FALSE
+X-MS-OLK-CONFTYPE:0
+BEGIN:VALARM
+TRIGGER:-PT1440M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+END:VCALENDAR
