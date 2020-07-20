@@ -1,10 +1,6 @@
-This is a template repo. To start.
+# TND AddToCal Hugo Module
 
-search `{moduleName}` through the project and replace it with the module identifier (ex: `socials` for `hugo-module-tnd-socials`)
-
-# Calendar Hugo Module
-
-(intro)
+An "Add to Calendar" button for adding events to your google/yahoo online calendars, or downloading an ics file for your desktop ical and outlook calendar applications.
 
 ## Requirements
 
@@ -18,7 +14,7 @@ Requirements:
 If not already, [init](https://gohugo.io/hugo-modules/use-modules/#initialize-a-new-module) your project as Hugo Module:
 
 ```
-$: hugo mod init {repo_url}
+$: hugo mod init github.com/theNewDynamic/hugo-module-calendar
 ```
 
 Configure your project's module to import this module:
@@ -32,11 +28,19 @@ module:
 
 ## Usage
 
-### Some Partial/Feature
+To add the calendar button, use the following partial:
 
-#### Examples
+```
+{{ partial "tnd-addtocal/add-to-calendar" . }}
+```
 
-### Settings
+Also, be sure the following partial is called (only once) on any page with the calendar button. It will add the button styles and scripts:
+
+```
+{{ partial "tnd-addtocal/add-to-calendar-assets" . }}
+```
+
+### Settings & Defaults
 
 Settings are added to the project's parameter under the `tnd_addtocal` map as shown below.
 
@@ -44,24 +48,52 @@ Settings are added to the project's parameter under the `tnd_addtocal` map as sh
 # config.yaml
 params:
   tnd_calendar:
-    [...]
+    default_location: '123 somewhere Rd., elsewhere TN 00000'
+    org_title: 'The New Dynamic'
+    org_email: 'example@email.com'
+    calendar_entries:
+      google: true
+      yahoo: true
+      ical: true
+      outlook_desktop: true
 ```
 
-#### Configure Key 1
+note: If the `ical` or `outlook_desktop` options are selected, the following must be added to the event collections `_index.md` file frontmatter for the ics files to be generated:
 
-#### Configure Key 2
-
-Given the example above, passing the following arguments to `tnd-addtocal/GetSRC`
+```yaml
+cascade:
+  outputs:
+  - html
+  - calendar
+outputs:
+- html
+- rss
 ```
-{{ $src := "/uploads/an-image.jpg" }}
-{{ $args := dict "src" $src "width" 1024 "pixel" 2 "ch" "Width,DPR" }}
+
+### Required Fields
+
+The frontmatter values that should be included in each event file for the calendar button to work are:
+
+```yaml
+title: A Title
+date: 2017-10-12 19:00:00
+venue: venues/a-venue.md           #optional
+tickets_link: https://something.com/a-place/tickets   #optional
 ```
 
-Will produce: `https://imgix.domain.com/image.jpg?w=1024&dpr=2&ch=Width,DPR`
+The `venue` field is optional but if a venue is specified, the following fields should be in its frontmatter:
 
-#### Defaults
+```yaml
+title: A Venue
+venue:
+  city: Elsewhere
+  state: TN
+  zip: '00000'
+  address: '123 somewhere Rd., elsewhere TN 00000'
+  phone: '000-000-0000'
+  link: 'https://something.com/place'
 
-ld copy/paste the above to your settings and append with new extensions.
+```
 
 ## theNewDynamic
 
