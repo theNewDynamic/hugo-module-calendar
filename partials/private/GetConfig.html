@@ -1,3 +1,19 @@
+{{/*
+  GetConfig
+
+  Description
+  Returns the calendar button config settings
+
+  @author mountainbug95
+
+  @context Page (.)
+
+  @access private
+
+  @example - Go Template
+    {{ $config := partial "tnd-addtocal/private/GetConfig" . }}
+*/}}
+
 {{ $config := dict }}
 {{ $defaults := `
 default_location: '123 somewhere Rd., elsewhere TN 00000'

@@ -1,16 +1,19 @@
 {{/*
+  GetURLGoogle
+
   Description
+  Returns a Google calendar event URL
 
   @author (Put your github handle here)
 
   @context Page (.)
 
-  @access public
+  @access private
 
   @return String
 
   @example - Go Template
-      {{ with partial "calendar-btn/GetURLGoogle" . }}
+      {{ with partial "tnd-addtocal/private/calendar-btn/GetURLGoogle" . }}
         <li class="ategoogle" id="addeventatc1-google" role="menuitem"><a href="{{ htmlUnescape . }}"><strong>Google</strong> <em>(online)</em></a></li>
       {{ end }}
 */}}

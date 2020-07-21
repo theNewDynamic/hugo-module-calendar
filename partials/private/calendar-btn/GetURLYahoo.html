@@ -1,16 +1,19 @@
 {{/*
+  GetURLYahoo
+
   Description
+  Returns a Yahoo calendar event URL
 
   @author mountainbug95
 
   @context Page (.)
 
-  @access public
+  @access private
 
   @return String
 
   @example - Go Template
-    {{ with partial "calendar-btn/GetURLYahoo" . }}
+    {{ with partial "tnd-addtocal/private/calendar-btn/GetURLYahoo" . }}
       <li class="ateyahoo" id="addeventatc1-yahoo" role="menuitem"><a href="{{ htmlUnescape . }}"><strong>Yahoo</strong><em>(online)</em></a></li>
     {{ end }}
 */}}

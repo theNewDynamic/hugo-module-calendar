@@ -1,16 +1,19 @@
 {{/*
+  GetURLOutlook
+
   Description
+  Returns an Outlook calendar event URL
 
   @author mountainbug95
 
   @context Page (.)
 
-  @access public
+  @access private
 
   @return String
 
   @example - Go Template
-    {{ with partial "calendar-btn/GetURLOutlook" . }}
+    {{ with partial "tnd-addtocal/private/calendar-btn/GetURLOutlook" . }}
       <li class="ateoutlookcom" id="addeventatc1-outlookcom" role="menuitem"><a href="{{ htmlUnescape . }}"> <strong>Outlook.com</strong><em>(online)</em></a></li>
     {{ end }}
 */}}

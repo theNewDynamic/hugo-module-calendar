@@ -1,5 +1,8 @@
 {{/*
+  GetCalendarContent
+  
   Description
+  Returns the calendar entry content
 
   @author mountainbug95
 
@@ -7,13 +10,13 @@
            context: page context (.)
            displayContent: boolean
 
-  @access public
+  @access private
 
   @return String
 
   @example - Go Template
     {{ $variant := printf "%x" (dict "variant" $.Params "showContent" true) }}
-    {{ with partialCached "calendar-btn/GetCalendarContent" (dict "context" . "displayContent" true) $variant }}
+    {{ with partialCached "tnd-addtocal/private/calendar-btn/GetCalendarContent" (dict "context" . "displayContent" true) $variant }}
       {{ $eventContent = . }}
     {{ end }}
 */}}
