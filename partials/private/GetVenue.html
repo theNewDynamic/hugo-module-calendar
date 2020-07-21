@@ -1,0 +1,27 @@
+{{/*
+  GetVenue
+  Retrieves the venue from either a content file or Params.venue
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @access private
+
+  @example - Go Template
+    {{ $venue := partial "tnd-addtocal/private/GetVenue" .context }}
+*/}}
+{{ $venue := dict }}
+{{ with .Params.venue }}
+  {{ if reflect.IsMap . }}
+    {{ $venue = . }}
+  {{ else }}
+    {{ with $venuePage := site.GetPage . }}
+      {{ with .Params.venue }}
+        {{ $venue = merge . (dict "title" $venuePage.Title) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $venue }}

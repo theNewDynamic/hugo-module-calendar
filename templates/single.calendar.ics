@@ -25,7 +25,7 @@ BEGIN:VEVENT
 CLASS:PUBLIC
 {{ $eventContent := "" -}}
 {{ $variant := printf "%x" (dict "variant" $.Params "showContent" false) }}
-{{- with partialCached "calendar-btn/GetCalendarContent" (dict "context" $ "displayContent" false) $variant -}}
+{{- with partialCached "tnd-addtocal/private/calendar-btn/GetCalendarContent" (dict "context" $ "displayContent" false) $variant -}}
   {{- $eventContent = print (replace (replace . "\n" ", ") ", , " ", ") -}}
 {{- end -}}
 DESCRIPTION:{{- $eventContent -}}

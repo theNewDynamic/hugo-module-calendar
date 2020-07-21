@@ -31,13 +31,13 @@ module:
 To add the calendar button, use the following partial:
 
 ```
-{{ partial "tnd-addtocal/add-to-calendar" . }}
+{{ partial "tnd-addtocal/add" . }}
 ```
 
 Also, be sure the following partial is called (only once) on any page with the calendar button. It will add the button styles and scripts:
 
 ```
-{{ partial "tnd-addtocal/add-to-calendar-assets" . }}
+{{ partial "tnd-addtocal/assets" . }}
 ```
 
 ### Settings & Defaults
@@ -74,17 +74,17 @@ outputs:
 
 The frontmatter values that should be included in each event file for the calendar button to work are:
 
+# Venue
+
+The `venue` frontmatter field can either be a string pointing to a content file, or a map of data.
+
+## As a map
+
+The field should contain the following keys:
+
 ```yaml
 title: A Title
 date: 2017-10-12 19:00:00
-venue: venues/a-venue.md           #optional
-tickets_link: https://something.com/a-place/tickets   #optional
-```
-
-The `venue` field is optional but if a venue is specified, the following fields should be in its frontmatter:
-
-```yaml
-title: A Venue
 venue:
   city: Elsewhere
   state: TN
@@ -92,8 +92,21 @@ venue:
   address: '123 somewhere Rd., elsewhere TN 00000'
   phone: '000-000-0000'
   link: 'https://something.com/place'
-
+tickets_link: https://something.com/a-place/tickets   #optional
 ```
+
+## As content file.
+
+The file should contain a `venue` front matter map listing the following:
+
+```yaml
+title: A Title
+date: 2017-10-12 19:00:00
+venue: venues/carnegy-hall.md
+tickets_link: https://something.com/a-place/tickets   #optional
+```
+
+Note that when pointing to a content file, the "venue" content file itself should contain the `venue` Front Matter map mentioned above.
 
 ## theNewDynamic
 

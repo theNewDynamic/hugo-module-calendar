@@ -27,14 +27,14 @@
 
 {{ with $.context.Params.venue }}
     {{ $venuString = "" }}
+ 
+    {{ $venue := partial "tnd-addtocal/private/GetVenue" .context }}
 
-    {{ $venue := $.context.Site.GetPage . }}
-
-    {{ with $venue.Title }}
+    {{ with $venue.title }}
       {{ $venuString = print $venuString "Venue Name: " . "\n" }}
     {{ end }}
 
-    {{ with $venue.Params.venue }}
+    {{ with $venue }}
       {{ if .address }}
         {{ $venuString = print $venuString "Venue Location: " .address }}
 

@@ -1,0 +1,87 @@
+{{/*
+  add
+
+  Description
+  Creates an "Add to Calendar" button
+
+  @author mountainbug95
+
+  @context Page (.)
+
+  @access public
+
+  @example - Go Template
+    {{ partial "tnd-addtocal/add" . }}
+*/}}
+
+<!-- ADD TO CALENDAR -->
+<span class="calendar-container">
+  {{ $config := partialCached "tnd-addtocal/private/GetConfig" . }}
+
+  <img src="/tnd-addtocal/calendar.svg" alt="" class="icon">
+  <span>Add to Calendar</span>
+  <div title="" class="" id="1" aria-haspopup="true" aria-expanded="false" tabindex="0" style="visibility: visible; z-index: 99999;">
+
+    {{ $location := "" }}
+    {{with $config.default_location }}
+      {{ $location = . }}
+    {{ end }}
+    {{with .Params.location }}
+      {{ $location = . }}
+    {{ end }}
+
+    {{ with $location }}
+      <span class="location atc_node hidden">{{ . }}</span>
+    {{ end }}
+    
+    <span class="organizer atc_node hidden">{{ $config.org_title }}</span>
+    <span class="organizer_email atc_node hidden">{{ $config.org_email }}</span>
+    <span class="all_day_event atc_node hidden">{{ if .Params.all_day }}{{ .Params.all_day }}{{ else }}false{{ end }}</span>
+    {{ with .Params.date }}
+      <span class="date_format atc_node hidden">{{ dateFormat "1/02/2006" . }}</span>
+    {{ else }}
+      {{ warnf "%sThere is no 'date' parameter present in this event file." "\nHugo Module TND addtocal:\n" }}
+    {{ end }}
+    
+    <ul id="addeventatc1-drop" class="addeventatc_dropdown" aria-hidden="true" aria-labelledby="addeventatc1">
+
+      {{ $pageData := . }}
+      {{/* We used to add "Outlook" but removed temporarily */}}
+      {{ range $service := slice "Google" "Yahoo" }}
+        {{ with partial (printf "tnd-addtocal/private/calendar-btn/GetURL%s" .) $pageData }}
+            <li class="ate{{ $service }} id" id="addeventatc1{{ $service }}" role="menuitem">
+              <a href="{{ htmlUnescape . }}">
+                {{ if eq $service "Google" }}
+                  <span class="icon">{{ partial "tnd-addtocal/private/icons/google.svg" . }}</span>
+                {{ end }}
+                {{ if eq $service "Yahoo" }}
+                  <span class="icon">{{ partial "tnd-addtocal/private/icons/yahoo.svg" . }}</span>
+                {{ end }}
+                <strong>{{ $service }}</strong><em>(online)</em>
+              </a>
+            </li>
+        {{ end }}
+      {{ end }}
+
+      {{ with .OutputFormats.Get "calendar" }}
+        {{ if $config.calendar_entries.ical }}
+          <li class="ateappleical" id="addeventatc1-appleical" role="menuitem">
+            <a href="{{ .RelPermalink }}">
+              <span class="icon">{{ partial "tnd-addtocal/private/icons/apple.svg" . }}</span>
+              <strong>Apple</strong>
+            </a>
+          </li>
+        {{ end }}
+        {{ if $config.calendar_entries.outlook_desktop }}
+          <li class="ateoutlook" id="addeventatc1-outlook" role="menuitem">
+            <a href="{{ .RelPermalink }}">
+              <span class="icon">{{ partial "tnd-addtocal/private/icons/outlook.svg" . }}</span>
+              <strong>Outlook</strong>
+            </a>
+          </li>
+        {{ end }}
+      {{ end }}
+    
+    </ul>
+  </div>
+</span>

@@ -38,7 +38,7 @@
   
     {{ $fullLink =  print $linkStart $link }}
   {{ else }}
-    {{ warnf "There is no 'date' parameter present in this event file." "\nHugo Module TND addtocal:\n" }}
+    {{ warnf "%sThere is no 'date' parameter present in this event file (title: %s)." "\nHugo Module TND addtocal:\n" $.Title }}
   {{ end }}
 {{ end }}
 
