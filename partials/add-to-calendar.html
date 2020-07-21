@@ -52,19 +52,35 @@
         {{/* We used to add "Outlook" but removed temporarily */}}
         {{ range $service := slice "Google" "Yahoo" }}
           {{ with partial (printf "tnd-addtocal/private/calendar-btn/GetURL%s" .) $pageData }}
-              <li class="ate{{ $service }} id" id="addeventatc1{{ $service }}" role="menuitem"><a href="{{ htmlUnescape . }}"><strong>{{ $service }}</strong><em>(online)</em></a></li>
+              <li class="ate{{ $service }} id" id="addeventatc1{{ $service }}" role="menuitem">
+                <a href="{{ htmlUnescape . }}">
+                  {{ if eq $service "Google" }}
+                    <span class="icon">{{ partial "tnd-addtocal/private/icons/google.svg" . }}</span>
+                  {{ end }}
+                  {{ if eq $service "Yahoo" }}
+                    <span class="icon">{{ partial "tnd-addtocal/private/icons/yahoo.svg" . }}</span>
+                  {{ end }}
+                  <strong>{{ $service }}</strong><em>(online)</em>
+                </a>
+              </li>
           {{ end }}
         {{ end }}
   
         {{ with .OutputFormats.Get "calendar" }}
           {{ if $config.calendar_entries.ical }}
             <li class="ateappleical" id="addeventatc1-appleical" role="menuitem">
-              <a href="{{ .RelPermalink }}"><strong>Apple</strong></a>
+              <a href="{{ .RelPermalink }}">
+                <span class="icon">{{ partial "tnd-addtocal/private/icons/apple.svg" . }}</span>
+                <strong>Apple</strong>
+              </a>
             </li>
           {{ end }}
           {{ if $config.calendar_entries.outlook_desktop }}
             <li class="ateoutlook" id="addeventatc1-outlook" role="menuitem">
-              <a href="{{ .RelPermalink }}"><strong>Outlook</strong></a>
+              <a href="{{ .RelPermalink }}">
+                <span class="icon">{{ partial "tnd-addtocal/private/icons/outlook.svg" . }}</span>
+                <strong>Outlook</strong>
+              </a>
             </li>
           {{ end }}
         {{ end }}
