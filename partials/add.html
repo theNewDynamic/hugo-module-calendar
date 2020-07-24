@@ -15,7 +15,7 @@
 */}}
 
 <!-- ADD TO CALENDAR -->
-<span class="calendar-container">
+<span class="calendar-container{{ if not .Params.date }} hidden{{ end }}">
   {{ $config := partialCached "tnd-addtocal/private/GetConfig" . }}
 
   <img src="/tnd-addtocal/calendar.svg" alt="" class="icon">
