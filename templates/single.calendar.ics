@@ -65,7 +65,10 @@ DTEND{{ $region }}:{{- $endDate }}
 {{/* The start date hours, minutes, and seconds must also be formatted as UTC */}}
 {{- $dateStart := print (dateFormat "20060102" .Date) "T" $startHour $minute $second -}}
 DTSTART{{ $region }}:{{- $dateStart }}
-LOCATION:279 Harvard St Brookline Massachusetts 02446-2908
+{{ $venue := partial "tnd-addtocal/private/GetVenue" . -}}
+{{- with $venue -}}
+  {{- with .address -}}{{- . -}}{{- print " " -}}{{- end -}}{{- with .city -}}{{- . -}}{{- print " " -}}{{- end -}}{{- with .state -}}{{- . -}}{{- print " " -}}{{- end -}}{{- with .zip -}}{{- . -}}{{- end -}}
+{{- end }}
 PRIORITY:5
 SEQUENCE:0
 SUMMARY;LANGUAGE=en-us:{{- .Params.title }}
