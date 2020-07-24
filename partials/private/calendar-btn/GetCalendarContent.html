@@ -28,7 +28,7 @@
 {{ with $.context.Params.venue }}
     {{ $venuString = "" }}
  
-    {{ $venue := partial "tnd-addtocal/private/GetVenue" .context }}
+    {{ $venue := partial "tnd-addtocal/private/GetVenue" $.context }}
 
     {{ with $venue.title }}
       {{ $venuString = print $venuString "Venue Name: " . "\n" }}
@@ -72,8 +72,18 @@
 {{ end }}
 
 {{ if eq .displayContent true }}
-  {{ with $.context.Content }}
-    {{ $eventContent = print . $eventContent }}
+  {{ $words := 0 }}
+  {{ with $.context.PlainWords }}
+    {{ $words = len .}}
+  {{ end }}
+  {{ with $.context.Plain }}
+    {{ $contentString := . }}
+
+    {{if gt $words 85 }}
+      {{ $contentString = . | truncate 500 }}
+    {{ end }}
+
+    {{ $eventContent = print $contentString "\n" $eventContent }}
   {{ end }}
 {{ else }}
   {{ $eventContent = print $eventContent }}
