@@ -40,7 +40,7 @@
     {{ with .Params.date }}
       <span class="date_format atc_node hidden">{{ dateFormat "1/02/2006" . }}</span>
     {{ else }}
-      {{ warnf "%sThere is no 'date' parameter present in this event file." "\nHugo Module TND addtocal:\n" }}
+      {{ partial "tnd-addtocal/warn" "There is no 'date' parameter present in this event file." }}
     {{ end }}
     
     <ul id="addeventatc1-drop" class="addeventatc_dropdown" aria-hidden="true" aria-labelledby="addeventatc1">

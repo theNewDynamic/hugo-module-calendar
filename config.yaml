@@ -4,6 +4,8 @@ module:
   mounts:
   - source: partials
     target: layouts/partials/tnd-addtocal
+  - source: console
+    target: layouts/partials/tnd-addtocal
   - source: templates
     target: layouts/_default
   - source: static
