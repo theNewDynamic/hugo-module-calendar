@@ -30,41 +30,17 @@ CLASS:PUBLIC
 {{- end -}}
 DESCRIPTION:{{- $eventContent -}}
   {{/* Pull the date hours minutes and seconds into variables and convert them to integers / also, safe guards against zero values getting trimmed  */}}
-  {{- $eventTime := time .Date -}}
-  {{- $timeZone := index (split $eventTime " ") 3 -}}
-  {{- $hour := add $eventTime.Hour 1 -}}
-  {{- $startHour := $eventTime.Hour -}}
-  {{- $minute := $eventTime.Minute -}}
-  {{- $second := $eventTime.Second -}}
-  {{/* if the hour is less than 10, add a zero to the front of the string so it will work with the date format */}}
-  {{- if lt $hour 10 -}}
-    {{- $hour = print "0" (string $hour) -}}
-  {{- else -}}
-    {{- $hour = string $hour -}}
-  {{- end -}}
-  {{- if lt $startHour 10 -}}
-    {{- $startHour = print "0" (string $startHour) -}}
-  {{- else -}}
-    {{- $startHour = string $startHour -}}
-  {{- end -}}
-  {{- if lt $minute 10 -}}
-    {{- $minute = print "0" (string $minute) -}}
-  {{- else -}}
-    {{- $minute = string $minute -}}
-  {{- end -}}
-  {{- if lt $second 10 -}}
-    {{- $second = print "0" (string $second) -}}
-  {{- else -}}
-    {{- $second = string $second -}}
-  {{- end -}}
-  {{/* determine the region corresponding to the time zone */}}
-  {{- $region := ";TZID=America/New_York" -}}
-  {{/* Construct the end date from the modified values */}}
-  {{- $endDate := print (dateFormat "20060102" .Date) "T" $hour $minute $second }}
-DTEND{{ $region }}:{{- $endDate }}
-{{/* The start date hours, minutes, and seconds must also be formatted as UTC */}}
-{{- $dateStart := print (dateFormat "20060102" .Date) "T" $startHour $minute $second -}}
-DTSTART{{ $region }}:{{- $dateStart }}
+{{- $start := "" -}}
+{{- $end := "" -}}
+{{- with partialCached "tnd-addtocal/private/GetStartEndDates" $ $ -}}
+  {{- $start = .start.Format "20060102T150405" -}}
+  {{- $end = .end.Format "20060102T150405" -}}
+{{- end -}}
+{{/* determine the region corresponding to the time zone */}}
+{{- $region := ";TZID=America/New_York" }}
+{{/* Construct the end date from the modified values */}}
+DTEND{{ $region }}:{{- $end }}
+DTSTART{{ $region }}:{{- $start }}
 {{ $venue := partial "tnd-addtocal/private/GetVenue" . -}}
 {{- with $venue -}}
   {{- with .address -}}{{- . -}}{{- print " " -}}{{- end -}}{{- with .city -}}{{- . -}}{{- print " " -}}{{- end -}}{{- with .state -}}{{- . -}}{{- print " " -}}{{- end -}}{{- with .zip -}}{{- . -}}{{- end -}}

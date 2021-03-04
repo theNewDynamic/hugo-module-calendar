@@ -19,40 +19,10 @@
 */}}
 {{ $fullLink := false }}
 {{ $config := partialCached "tnd-addtocal/private/GetConfig" . }}
-{{ with .Date }}
+{{ with partialCached "tnd-addtocal/private/GetStartEndDates" $ $ }}
 
-
-  {{ $hour := add (div (int (print ((dateFormat "15" .) | strings.TrimLeft "0") "0")) 10) 6 }}
-  {{ $startHour := add (div (int (print ((dateFormat "15" .) | strings.TrimLeft "0") "0")) 10) 5 }}
-  {{ $minute := div (int (print ((dateFormat "04" .) | strings.TrimLeft "0") "0")) 10 }}
-  {{ $second := div (int (print ((dateFormat "05" .) | strings.TrimLeft "0") "0")) 10 }}
-
-  {{ if lt $hour 10 }}
-    {{ $hour = print "0" (string $hour) }}
-  {{ else }}
-    {{ $hour = string $hour }}
-  {{ end }}
-
-  {{ if lt $startHour 10 }}
-    {{ $startHour = print "0" (string $startHour) }}
-  {{ else }}
-    {{ $startHour = string $startHour }}
-  {{ end }}
-
-  {{ if lt $minute 10 }}
-    {{ $minute = print "0" (string $minute) }}
-  {{ else }}
-    {{ $minute = string $minute }}
-  {{ end }}
-
-  {{ if lt $second 10 }}
-    {{ $second = print "0" (string $second) }}
-  {{ else }}
-    {{ $second = string $second }}
-  {{ end }}
-
-  {{ $date := print (dateFormat "20060102" .) "T" $startHour $minute $second "Z" }}
-  {{ $endDate := print (dateFormat "20060102" .) "T" $hour $minute $second "Z" }}
+  {{ $start := .start.Format "20060102T150405Z" }}
+  {{ $end := .end.Format "20060102T150405Z" }}
 
   {{ $eventTitle := $.Params.title }}
 
@@ -63,7 +33,7 @@
     {{ $eventContent = . }}
   {{ end }}
 
-  {{ $link := querify "rru" "addevent" "startdt" $date "enddt" $endDate "subject" $eventTitle "body" $eventContent "location" $config.default_location }}
+  {{ $link := querify "rru" "addevent" "startdt" $start "enddt" $end "subject" $eventTitle "body" $eventContent "location" $config.default_location }}
 
   {{ $linkStart := "https://outlook.live.com/owa/?path=/calendar/view/Month&" }}
 

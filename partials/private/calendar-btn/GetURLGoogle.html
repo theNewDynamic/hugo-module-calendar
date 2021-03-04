@@ -20,35 +20,16 @@
 {{ $fullLink := false }}
 {{ $config := partialCached "tnd-addtocal/private/GetConfig" . }}
 {{ if $config.calendar_entries.google }}
-  {{ with and .Date }}
-    {{ $date := dateFormat "20060102T150405" . }}
+  {{ with partialCached "tnd-addtocal/private/GetStartEndDates" $ $ }}
+    {{ $start := .start }}
+    {{ $end := .end }}
+    {{ $startDate := $start.Format "20060102T150405" }}
+    {{ $endDate := $end.Format "/20060102T150405" }}
   
-    {{ $hour := add (div (int (print ((dateFormat "15" .) | strings.TrimLeft "0") "0")) 10) 1 }}
-    {{ $minute := div (int (print ((dateFormat "04" .) | strings.TrimLeft "0") "0")) 10 }}
-    {{ $second := div (int (print ((dateFormat "05" .) | strings.TrimLeft "0") "0")) 10 }}
-  
-    {{ if lt $hour 10 }}
-      {{ $hour = print "0" (string $hour) }}
-    {{ else }}
-      {{ $hour = string $hour }}
+    {{ $dateFull := print $startDate $endDate }}
+    {{ if eq $.Title "_Anatomy of a Murder (1959)_" }}
+      {{ warnf "%#v" $dateFull }}
     {{ end }}
-  
-    {{ if lt $minute 10 }}
-      {{ $minute = print "0" (string $minute) }}
-    {{ else }}
-      {{ $minute = string $minute }}
-    {{ end }}
-  
-    {{ if lt $second 10 }}
-      {{ $second = print "0" (string $second) }}
-    {{ else }}
-      {{ $second = string $second }}
-    {{ end }}
-  
-    {{ $endDate := print "/" (dateFormat "20060102" .) "T" $hour $minute $second }}
-  
-    {{ $dateFull := print $date $endDate }}
-  
     {{ $eventTitle := $.Params.title }}
   
     {{ $eventContent := "" }}
@@ -63,6 +44,9 @@
     {{ $linkStart := "https://www.google.com/calendar/render?action=TEMPLATE&" }}
   
     {{ $fullLink =  print $linkStart $link }}
+
+
+
   {{ else }}
     {{ partial "tnd-addtocal/warn" "There is no 'date' parameter present in this event file." }}
   {{ end }}

@@ -20,9 +20,9 @@
 {{ $fullLink := false }}
 {{ $config := partialCached "tnd-addtocal/private/GetConfig" . }}
 {{ if $config.calendar_entries.yahoo }}
-  {{ with .Date }}
-    {{ $date := dateFormat "20060102T150405" . }}
-    
+  {{ with partialCached "tnd-addtocal/private/GetStartEndDates" $ $ }}
+    {{ $start := .start.Format "20060102T150405" }}
+    {{ $end := .end.Format "20060102T150405" }}
     {{ $eventTitle := $.Params.title }}
   
     {{ $eventContent := "" }}
@@ -32,7 +32,7 @@
       {{ $eventContent = . }}
     {{ end }}
   
-    {{ $link := querify "v" "60" "TITLE" $eventTitle "DESC" $eventContent "ST" $date "DUR" "0100" "in_loc" $config.default_location }}
+    {{ $link := querify "v" "60" "TITLE" $eventTitle "DESC" $eventContent "ST" $start "ET" $end "in_loc" $config.default_location }}
   
     {{ $linkStart := "http://calendar.yahoo.com/?" }}
   

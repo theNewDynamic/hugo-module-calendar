@@ -1,0 +1,36 @@
+{{/*
+  GetStartEndDates
+  Retrive the start date and end date of an event. End date defaults to one hour after start date.
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @access private
+
+  @returns Map
+    Date (.start)
+    Date (.end)
+
+  @example - Go Template
+    {{ with partialCached "tnd-addtocal/private/GetStartEndDates" . . }}
+      {{ $something = . }}
+    {{ end }}
+*/}}
+{{ $s := newScratch }}
+{{ $s.Set "data" dict }}
+{{ $date := .Date }}
+{{ with .Params.time_start }}
+  {{ $date = . }}
+{{ end }}
+{{ with $date }}
+  {{ $start := time . }}
+  {{ $s.SetInMap "data" "start" $start }}
+  {{ $end := $start.Add (1 | duration "hour") }}
+  {{ with $.Params.time_end }}
+    {{ $end = time . }}
+  {{ end }}
+  {{ $s.SetInMap "data" "end" $end }}
+{{ end }}
+
+{{ return $s.Get "data" }}
