@@ -26,13 +26,13 @@
     {{ $eventTitle := $.Params.title }}
   
     {{ $eventContent := "" }}
-  
+    {{ $location := partialCached "tnd-addtocal/private/GetVenueAsString" $ $ }}
     {{ $variant := printf "%x" (dict "variant" $.Params "showContent" true) }}
     {{ with partialCached "tnd-addtocal/private/calendar-btn/GetCalendarContent" (dict "context" $ "displayContent" true) $variant }}
       {{ $eventContent = . }}
     {{ end }}
   
-    {{ $link := querify "v" "60" "TITLE" $eventTitle "DESC" $eventContent "ST" $start "ET" $end "in_loc" $config.default_location }}
+    {{ $link := querify "v" "60" "TITLE" $eventTitle "DESC" $eventContent "ST" $start "ET" $end "in_loc" $location }}
   
     {{ $linkStart := "http://calendar.yahoo.com/?" }}
   

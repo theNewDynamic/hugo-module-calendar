@@ -12,16 +12,23 @@
     {{ $venue := partial "tnd-addtocal/private/GetVenue" .context }}
 */}}
 {{ $venue := dict }}
-{{ with .Params.venue }}
-  {{ if reflect.IsMap . }}
+{{ if templates.Exists "partials/tnd-events/GetEventVenue.html" }}
+  {{ with partialCached "tnd-events/GetEventVenue" . . }}
     {{ $venue = . }}
-  {{ else }}
-    {{ with $venuePage := site.GetPage . }}
-      {{ with .Params.venue }}
-        {{ $venue = merge . (dict "title" $venuePage.Title) }}
+  {{ end }}
+{{ else }}
+  {{ with .Params.venue }}
+    {{ if reflect.IsMap . }}
+      {{ $venue = . }}
+    {{ else }}
+      {{ with $venuePage := site.GetPage . }}
+        {{ with .Params.venue }}
+          {{ $venue = merge . (dict "title" $venuePage.Title) }}
+        {{ end }}
       {{ end }}
     {{ end }}
   {{ end }}
 {{ end }}
+
 
 {{ return $venue }}

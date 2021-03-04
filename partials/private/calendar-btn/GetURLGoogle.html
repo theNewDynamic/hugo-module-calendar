@@ -27,11 +27,8 @@
     {{ $endDate := $end.Format "/20060102T150405" }}
   
     {{ $dateFull := print $startDate $endDate }}
-    {{ if eq $.Title "_Anatomy of a Murder (1959)_" }}
-      {{ warnf "%#v" $dateFull }}
-    {{ end }}
     {{ $eventTitle := $.Params.title }}
-  
+    {{ $location := partialCached "tnd-addtocal/private/GetVenueAsString" $ $ }}
     {{ $eventContent := "" }}
   
     {{ $variant := printf "%x" (dict "variant" $.Params "showContent" true) }}
@@ -39,7 +36,7 @@
       {{ $eventContent = . }}
     {{ end }}
   
-    {{ $link := querify "text" $eventTitle "details" $eventContent "location" $config.default_location "dates" $dateFull "ctz" "America/New_York" }}
+    {{ $link := querify "text" $eventTitle "details" $eventContent "location" $location "dates" $dateFull "ctz" "America/New_York" }}
   
     {{ $linkStart := "https://www.google.com/calendar/render?action=TEMPLATE&" }}
   

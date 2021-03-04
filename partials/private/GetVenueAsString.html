@@ -1,0 +1,29 @@
+{{/*
+  GetVenueAsString
+  Retiev entry venue and convert map to string
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @access private
+
+  @returns String
+
+  @uses
+     - tnd-addtocal/private/GetVenue
+
+  @example - Go Template
+    {{ with partialCached "tnd-addtocal/private/GetVenueAsString" . . }}
+      {{ something = . }}
+    {{ end }}
+*/}}
+{{ $location := "" }}
+{{ with partialCached "tnd-addtocal/private/GetVenue" . . }}
+  {{ $location = . }}
+  {{ if reflect.IsMap . }}
+    {{ $location = print .address ", " .city " " .state " " .zip }}
+  {{ end }}
+{{ end }}
+
+{{ return $location }}

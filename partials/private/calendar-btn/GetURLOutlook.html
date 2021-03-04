@@ -27,13 +27,13 @@
   {{ $eventTitle := $.Params.title }}
 
   {{ $eventContent := "" }}
-
+  {{ $location := partialCached "tnd-addtocal/private/GetVenueAsString" $ $ }}
   {{ $variant := printf "%x" (dict "variant" $.Params "showContent" true) }}
   {{ with partialCached "tnd-addtocal/private/calendar-btn/GetCalendarContent" (dict "context" $ "displayContent" true) $variant }}
     {{ $eventContent = . }}
   {{ end }}
 
-  {{ $link := querify "rru" "addevent" "startdt" $start "enddt" $end "subject" $eventTitle "body" $eventContent "location" $config.default_location }}
+  {{ $link := querify "rru" "addevent" "startdt" $start "enddt" $end "subject" $eventTitle "body" $eventContent "location" $location }}
 
   {{ $linkStart := "https://outlook.live.com/owa/?path=/calendar/view/Month&" }}
 
