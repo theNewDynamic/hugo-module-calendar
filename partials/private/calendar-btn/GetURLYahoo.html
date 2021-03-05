@@ -18,29 +18,26 @@
     {{ end }}
 */}}
 {{ $fullLink := false }}
-{{ $config := partialCached "tnd-addtocal/private/GetConfig" . }}
-{{ if $config.calendar_entries.yahoo }}
-  {{ with partialCached "tnd-addtocal/private/GetStartEndDates" $ $ }}
-    {{ $start := .start.Format "20060102T150405" }}
-    {{ $end := .end.Format "20060102T150405" }}
-    {{ $eventTitle := $.Params.title }}
-  
-    {{ $eventContent := "" }}
-    {{ $location := partialCached "tnd-addtocal/private/GetVenueAsString" $ $ }}
-    {{ $variant := printf "%x" (dict "variant" $.Params "showContent" true) }}
-    {{ with partialCached "tnd-addtocal/private/calendar-btn/GetCalendarContent" (dict "context" $ "displayContent" true) $variant }}
-      {{ $eventContent = . }}
-    {{ end }}
-  
-    {{ $link := querify "v" "60" "TITLE" $eventTitle "DESC" $eventContent "ST" $start "ET" $end "in_loc" $location }}
-  
-    {{ $linkStart := "http://calendar.yahoo.com/?" }}
-  
-    {{ $fullLink =  print $linkStart $link }}
-  {{ else }}
-    {{ $warn := printf "There is no 'date' parameter present in this event file (title: %s)." $.Title }}
-    {{ partial "tnd-addtocal/warn" $warn }}
+{{ with partialCached "tnd-addtocal/private/GetStartEndDates" $ $ }}
+  {{ $start := .start.Format "20060102T150405" }}
+  {{ $end := .end.Format "20060102T150405" }}
+  {{ $eventTitle := $.Params.title }}
+
+  {{ $eventContent := "" }}
+  {{ $location := partialCached "tnd-addtocal/private/GetVenueAsString" $ $ }}
+  {{ $variant := printf "%x" (dict "variant" $.Params "showContent" true) }}
+  {{ with partialCached "tnd-addtocal/private/calendar-btn/GetCalendarContent" (dict "context" $ "displayContent" true) $variant }}
+    {{ $eventContent = . }}
   {{ end }}
+
+  {{ $link := querify "v" "60" "TITLE" $eventTitle "DESC" $eventContent "ST" $start "ET" $end "in_loc" $location }}
+
+  {{ $linkStart := "http://calendar.yahoo.com/?" }}
+
+  {{ $fullLink =  print $linkStart $link }}
+{{ else }}
+  {{ $warn := printf "There is no 'date' parameter present in this event file (title: %s)." $.Title }}
+  {{ partial "tnd-addtocal/warn" $warn }}
 {{ end }}
 
 {{ return $fullLink }}

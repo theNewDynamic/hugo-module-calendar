@@ -1,0 +1,48 @@
+{{ $s := newScratch }}
+{{ $services := slice }}
+
+{{ $available_services := `
+- key: google
+  label: Google
+  type: online
+  partial: GetURLGoogle
+- key: yahoo
+  label: Yahoo
+  type: online
+  partial: GetURLYahoo
+- key: apple
+  label: Apple
+  type: output
+- key: outlook
+  label: Outlook
+  type: output
+` | transform.Unmarshal }}
+{{ $user_services := $available_services }}
+{{ $config := partialCached "tnd-addtocal/private/GetConfig" "GetConfig" }}
+{{ with $config.services }}
+  {{ $user_services = slice }}
+  {{ range $key := . }}
+    {{ with where $available_services "key" $key }}
+      {{ with index . 0 }}
+        {{ $user_services = $user_services | append . }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ range $user_services }}
+  {{ $s.Set "data" (dict "label" .label "key" .key "type" .type) }}
+  {{ if eq .type "online" }}
+
+    {{ with partialCached (print "tnd-addtocal/private/calendar-btn/" .partial ".html") $ $ }}
+      {{ $s.SetInMap "data" "URL" . }}
+    {{ end }}
+  {{ else if eq .type "output" }}
+    {{ with $.OutputFormats.Get "calendar" }}
+    {{ $s.SetInMap "data" "URL" .RelPermalink }}
+    {{ end }}
+  {{ end }}
+
+  {{ $services = $services | append ($s.Get "data") }}
+{{ end }}
+
+{{ return $services }}

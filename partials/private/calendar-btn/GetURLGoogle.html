@@ -18,35 +18,32 @@
       {{ end }}
 */}}
 {{ $fullLink := false }}
-{{ $config := partialCached "tnd-addtocal/private/GetConfig" . }}
-{{ if $config.calendar_entries.google }}
-  {{ with partialCached "tnd-addtocal/private/GetStartEndDates" $ $ }}
-    {{ $start := .start }}
-    {{ $end := .end }}
-    {{ $startDate := $start.Format "20060102T150405" }}
-    {{ $endDate := $end.Format "/20060102T150405" }}
-  
-    {{ $dateFull := print $startDate $endDate }}
-    {{ $eventTitle := $.Params.title }}
-    {{ $location := partialCached "tnd-addtocal/private/GetVenueAsString" $ $ }}
-    {{ $eventContent := "" }}
-  
-    {{ $variant := printf "%x" (dict "variant" $.Params "showContent" true) }}
-    {{ with partialCached "tnd-addtocal/private/calendar-btn/GetCalendarContent" (dict "context" $ "displayContent" true) $variant }}
-      {{ $eventContent = . }}
-    {{ end }}
-  
-    {{ $link := querify "text" $eventTitle "details" $eventContent "location" $location "dates" $dateFull "ctz" "America/New_York" }}
-  
-    {{ $linkStart := "https://www.google.com/calendar/render?action=TEMPLATE&" }}
-  
-    {{ $fullLink =  print $linkStart $link }}
+{{ with partialCached "tnd-addtocal/private/GetStartEndDates" $ $ }}
+  {{ $start := .start }}
+  {{ $end := .end }}
+  {{ $startDate := $start.Format "20060102T150405" }}
+  {{ $endDate := $end.Format "/20060102T150405" }}
 
+  {{ $dateFull := print $startDate $endDate }}
+  {{ $eventTitle := $.Params.title }}
+  {{ $location := partialCached "tnd-addtocal/private/GetVenueAsString" $ $ }}
+  {{ $eventContent := "" }}
 
-
-  {{ else }}
-    {{ partial "tnd-addtocal/warn" "There is no 'date' parameter present in this event file." }}
+  {{ $variant := printf "%x" (dict "variant" $.Params "showContent" true) }}
+  {{ with partialCached "tnd-addtocal/private/calendar-btn/GetCalendarContent" (dict "context" $ "displayContent" true) $variant }}
+    {{ $eventContent = . }}
   {{ end }}
+
+  {{ $link := querify "text" $eventTitle "details" $eventContent "location" $location "dates" $dateFull "ctz" "America/New_York" }}
+
+  {{ $linkStart := "https://www.google.com/calendar/render?action=TEMPLATE&" }}
+
+  {{ $fullLink =  print $linkStart $link }}
+
+
+
+{{ else }}
+  {{ partial "tnd-addtocal/warn" "There is no 'date' parameter present in this event file." }}
 {{ end }}
 
 {{ return $fullLink }}

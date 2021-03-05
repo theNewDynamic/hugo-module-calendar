@@ -15,19 +15,8 @@
 */}}
 
 {{ $config := dict }}
-{{ $defaults := `
-default_location: '123 somewhere Rd., elsewhere TN 00000'
-org_title: 'The New Dynamic'
-org_email: 'example@email.com'
-calendar_entries:
-  google: true
-  yahoo: true
-  ical: true
-  outlook_desktop: true
-` | transform.Unmarshal }}
-
 {{ with site.Params.tnd_addtocal }}
-  {{ $config = merge $defaults . }}
+  {{ $config = . }}
 {{ end }}
 
 {{ return $config }}

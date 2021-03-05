@@ -29,7 +29,6 @@
     {{ $venuString = "" }}
  
     {{ $venue := partial "tnd-addtocal/private/GetVenue" $.context }}
-
     {{ with $venue.title }}
       {{ $venuString = print $venuString "Venue Name: " . "\n" }}
     {{ end }}

@@ -1,0 +1,16 @@
+{{/*
+  tags
+
+  Description
+  Places the "Add to Calendar" button assets
+
+  @author @mountainbug95
+
+  @context Page (.)
+
+  @access public
+
+*/}}
+{{ with resources.Get "/tnd-addtocal/js/button.js" }}
+  <script defer src="{{ .RelPermalink }}"></script>
+{{ end }}

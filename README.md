@@ -47,15 +47,11 @@ Settings are added to the project's parameter under the `tnd_addtocal` map as sh
 ```yaml
 # config.yaml
 params:
-  tnd_calendar:
-    default_location: '123 somewhere Rd., elsewhere TN 00000'
-    org_title: 'The New Dynamic'
-    org_email: 'example@email.com'
-    calendar_entries:
-      google: true
-      yahoo: true
-      ical: true
-      outlook_desktop: true
+  tnd_addtocal:
+    default_location: '555 Someplace Rd'
+    services:
+      - google
+      - apple
 ```
 
 note: If the `ical` or `outlook_desktop` options are selected, the following must be added to the event collections `_index.md` file frontmatter for the ics files to be generated:
