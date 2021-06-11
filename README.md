@@ -37,7 +37,7 @@ To add the calendar button, use the following partial:
 Also, be sure the following partial is called (only once) on any page with the calendar button. It will add the button styles and scripts:
 
 ```
-{{ partial "tnd-addtocal/assets" . }}
+{{ partial "tnd-addtocal/tags" . }}
 ```
 
 ### Settings & Defaults
