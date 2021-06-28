@@ -29,11 +29,12 @@
     {{ end }}
   {{ end }}
 {{ end }}
+
 {{ range $user_services }}
   {{ $s.Set "data" (dict "label" .label "key" .key "type" .type) }}
   {{ if eq .type "online" }}
 
-    {{ with partialCached (print "tnd-addtocal/private/calendar-btn/" .partial ".html") $ $ }}
+    {{ with partialCached (print "tnd-addtocal/private/" .partial ".html") $ $ }}
       {{ $s.SetInMap "data" "URL" . }}
     {{ end }}
   {{ else if eq .type "output" }}

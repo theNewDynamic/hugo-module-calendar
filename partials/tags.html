@@ -4,7 +4,7 @@
   Description
   Places the "Add to Calendar" button assets
 
-  @author @mountainbug95
+  @author @mountainbug95 @regisphilibert
 
   @context Page (.)
 
@@ -13,4 +13,7 @@
 */}}
 {{ with resources.Get "/tnd-addtocal/js/button.js" }}
   <script defer src="{{ .RelPermalink }}"></script>
+{{ end }}
+{{ with resources.Get "/tnd-addtocal/css/button.css" }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}">
 {{ end }}

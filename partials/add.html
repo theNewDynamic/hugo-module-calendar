@@ -16,24 +16,27 @@
 
 <!-- ADD TO CALENDAR -->
 {{ with partialCached "tnd-addtocal/private/GetAvailableServices" . . }}
-<span class="block tnd-addtocal__wrapper relative">
-  <div class="flex border justify-between p-2">
-  {{ with resources.Get "/tnd-addtocal/calendar.svg" }}
-  <img src="{{ .RelPermalink }}" alt="" class="icon">
-  {{ end }}
-  <span>Add to Calendar</span>
-  </div>
-  <div class="absolute left-0 top-full w-full z-10 bg-white" id="1" aria-haspopup="true" aria-expanded="false" tabindex="0">
-    <ul id="addeventatc1-drop" class="tnd-addtocal__dropdown hidden" aria-hidden="true" aria-labelledby="addeventatc1">
-      {{/* We used to add "Outlook" but removed temporarily */}}
-      {{ range . }}
-        <li class="border-b border-l border-r p-2" role="menuitem">
-          <a class="align-center" href="{{ htmlUnescape .URL }}">
-            <strong>{{ .label }}</strong>{{ if eq .type "online" }} <em>(online)</em>{{ end }}
-          </a>
-        </li>
-      {{ end }}
-    </ul>
-  </div>
-</span>
+{{ $event_id := partialCached "tnd-addtocal/private/GetUniqueID" $ $}}
+<div class="tnd-addtocal__wrapper">
+  <button aria-haspopup="listbox" class="tnd-addtocal__button">
+    {{ with resources.Get "/tnd-addtocal/calendar.svg" }}
+    {{ .Content | safeHTML }}
+    {{ end }}
+    Add to Calendar
+  </button>
+  <ul id="tnd-addtocal-{{ $event_id }}" class="tnd-addtocal__dropdown" 
+    aria-hidden="true" 
+    tabindex="-1" 
+    role="listbox"
+  >
+    {{/* We used to add "Outlook" but removed temporarily */}}
+    {{ range . }}
+      <li id="tnd-addtocal-{{ .key }}-{{ $event_id }}" role="option">
+        <a href="{{ htmlUnescape .URL }}">
+          <strong>{{ .label }}</strong>{{ if eq .type "online" }} <em>(online)</em>{{ end }}
+        </a>
+      </li>
+    {{ end }}
+  </ul>
+</div>
 {{ end }}

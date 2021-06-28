@@ -16,7 +16,7 @@
 
   @example - Go Template
     {{ $variant := printf "%x" (dict "variant" $.Params "showContent" true) }}
-    {{ with partialCached "tnd-addtocal/private/calendar-btn/GetCalendarContent" (dict "context" . "displayContent" true) $variant }}
+    {{ with partialCached "tnd-addtocal/private/GetCalendarContent" (dict "context" . "displayContent" true) $variant }}
       {{ $eventContent = . }}
     {{ end }}
 */}}

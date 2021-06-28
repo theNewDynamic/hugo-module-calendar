@@ -13,7 +13,7 @@
   @return String
 
   @example - Go Template
-    {{ with partial "tnd-addtocal/private/calendar-btn/GetURLYahoo" . }}
+    {{ with partial "tnd-addtocal/private/GetURLYahoo" . }}
       <li class="ateyahoo" id="addeventatc1-yahoo" role="menuitem"><a href="{{ htmlUnescape . }}"><strong>Yahoo</strong><em>(online)</em></a></li>
     {{ end }}
 */}}
@@ -26,7 +26,7 @@
   {{ $eventContent := "" }}
   {{ $location := partialCached "tnd-addtocal/private/GetVenueAsString" $ $ }}
   {{ $variant := printf "%x" (dict "variant" $.Params "showContent" true) }}
-  {{ with partialCached "tnd-addtocal/private/calendar-btn/GetCalendarContent" (dict "context" $ "displayContent" true) $variant }}
+  {{ with partialCached "tnd-addtocal/private/GetCalendarContent" (dict "context" $ "displayContent" true) $variant }}
     {{ $eventContent = . }}
   {{ end }}
 
