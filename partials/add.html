@@ -13,10 +13,8 @@
   @example - Go Template
     {{ partial "tnd-addtocal/add" . }}
 */}}
-
-<!-- ADD TO CALENDAR -->
 {{ with partialCached "tnd-addtocal/private/GetAvailableServices" . . }}
-{{ $event_id := partialCached "tnd-addtocal/private/GetUniqueID" $ $}}
+{{ $event_id := partialCached "tnd-addtocal/private/GetUniqueID" $ $ }}
 <div class="tnd-addtocal__wrapper">
   <button aria-haspopup="listbox" class="tnd-addtocal__button">
     {{ with resources.Get "/tnd-addtocal/calendar.svg" }}
@@ -31,11 +29,9 @@
   >
     {{/* We used to add "Outlook" but removed temporarily */}}
     {{ range . }}
-      <li id="tnd-addtocal-{{ .key }}-{{ $event_id }}" role="option">
-        <a href="{{ htmlUnescape .URL }}">
-          <strong>{{ .label }}</strong>{{ if eq .type "online" }} <em>(online)</em>{{ end }}
-        </a>
-      </li>
+    <li id="tnd-addtocal-{{ .Key }}-{{ $event_id }}" role="option">
+      {{ partialCached "tnd-addtocal/view/service" . . }}
+    </li>
     {{ end }}
   </ul>
 </div>

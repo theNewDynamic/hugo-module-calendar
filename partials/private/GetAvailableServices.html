@@ -1,3 +1,25 @@
+{{/*
+  GetAvailableServices
+  Retrieves the list of services selected by user
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @access private
+
+  @returns Map
+    String (.Label)
+    String (.Key)
+    String (.Type)
+    String (.URL)
+    HTML String (.Icon)?
+  @uses
+     - tnd-addtocal/private/GetConfig
+     - tnd-addtocal/private/GetURLGoogle
+     - tnd-addtocal/private/GetURLOutlook
+     - tnd-addtocal/private/GetURLYahoo
+*/}}
 {{ $s := newScratch }}
 {{ $services := slice }}
 
@@ -31,15 +53,23 @@
 {{ end }}
 
 {{ range $user_services }}
-  {{ $s.Set "data" (dict "label" .label "key" .key "type" .type) }}
-  {{ if eq .type "online" }}
+  {{ $s.Set "data" (dict "Label" .label "Key" .key "Type" .type) }}
 
+  {{ if eq .type "online" }}
     {{ with partialCached (print "tnd-addtocal/private/" .partial ".html") $ $ }}
       {{ $s.SetInMap "data" "URL" . }}
     {{ end }}
   {{ else if eq .type "output" }}
     {{ with $.OutputFormats.Get "calendar" }}
-    {{ $s.SetInMap "data" "URL" .RelPermalink }}
+      {{ $s.SetInMap "data" "URL" .RelPermalink }}
+    {{ end }}
+  {{ end }}
+
+  {{ if $config.use_icons }}
+    {{ with resources.Get (printf "tnd-addtocal/icons/%s.svg" .key) }}
+      {{ with .Content }}
+        {{ $s.SetInMap "data" "Icon" (. | safeHTML) }}
+      {{ end }}
     {{ end }}
   {{ end }}
 
