@@ -10,6 +10,3 @@ module:
     target: layouts/_default
   - source: assets
     target: assets/tnd-addtocal
-params:
-  tnd_addtocal:
-    default_location: '123 somewhere Rd., elsewhere TN 00000'

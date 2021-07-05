@@ -10,6 +10,8 @@
 }
 .tnd-addtocal__wrapper svg{
   display: inline-block;
+  width: 1rem;
+
 }
 .tnd-addtocal__wrapper{
   border: 1px solid currentColor;

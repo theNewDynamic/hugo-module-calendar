@@ -1,0 +1,3 @@
+<a class="flex items-baseline" href="{{ htmlUnescape .URL }}">
+  {{ with .Icon }}{{ . }}{{ end }} <strong>{{ .Label }}</strong>{{ if eq .Type "online" }} <em>(online)</em>{{ end }}
+</a>

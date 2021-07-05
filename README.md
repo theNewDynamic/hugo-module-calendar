@@ -40,7 +40,7 @@ Also, be sure the following partial is called (only once) on any page with the c
 {{ partial "tnd-addtocal/tags" . }}
 ```
 
-### Settings & Defaults
+### Settings
 
 Settings are added to the project's parameter under the `tnd_addtocal` map as shown below.
 
@@ -48,13 +48,19 @@ Settings are added to the project's parameter under the `tnd_addtocal` map as sh
 # config.yaml
 params:
   tnd_addtocal:
-    default_location: '555 Someplace Rd'
     services:
       - google
+      - yahoo
       - apple
+      - outlook
 ```
+Available services are:
+- __google__: Will point to a URL for Google Calendar
+- __yahoo__: Will point to a URL for Yahoo Calendar
+- __apple__: Will point to an iCal file
+- __outlook__: Will point to an iCal file
 
-note: If the `ical` or `outlook_desktop` options are selected, the following must be added to the event collections `_index.md` file frontmatter for the ics files to be generated:
+note: If the `apple` or `outlook` options are selected, the following must be added to the event collections `_index.md` file frontmatter for the ics files to be generated:
 
 ```yaml
 cascade:
@@ -65,6 +71,16 @@ outputs:
 - html
 - rss
 ```
+
+## Icons
+The Module can display icons next to the Service links if the following settings is set:
+```
+tnd_addtocal:
+  use_icons: true
+```
+
+In order to customize said icons, user should add an svg file matching a service key at `/assets/tnd-addtocal/icons`.
+Ex: `/assets/tnd-addtocal/icons/google.svg`
 
 ### Required Fields
 
