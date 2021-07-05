@@ -1,0 +1,43 @@
+.tnd-addtocal__wrapper button{
+  background: transparent;
+  border: 0;
+  display: block;
+  cursor: pointer;
+}
+.tnd-addtocal__wrapper ul{
+  list-style-type: none;
+  padding: 0;
+}
+.tnd-addtocal__wrapper svg{
+  display: inline-block;
+}
+.tnd-addtocal__wrapper{
+  border: 1px solid currentColor;
+  position: relative;
+
+}
+.tnd-addtocal__button, .tnd-addtocal__dropdown li{
+  border-bottom: 1px solid currentColor;
+}
+.tnd-addtocal__button, .tnd-addtocal__dropdown a {
+  padding: .5em;
+  display: block;
+  text-align: left;
+  width: 100%;
+}
+.tnd-addtocal__dropdown{
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: white;
+  border-top: 1px solid currentColor;
+  border-left: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+}
+
+.tnd-addtocal__button[aria-expanded] + .tnd-addtocal__dropdown{
+  display: block;
+}
